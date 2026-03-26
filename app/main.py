@@ -10,6 +10,7 @@ from typing import Dict, Optional
 
 from fastapi import FastAPI, Header, HTTPException, Request
 from fastapi.encoders import jsonable_encoder
+from fastapi.responses import FileResponse
 import invoice2data
 from invoice2data import extract_data
 from invoice2data.extract.loader import read_templates
@@ -31,6 +32,7 @@ with sqlite3.connect(DB_PATH) as conn:
     conn.execute("create table if not exists usage (api_key text, day text, count integer, primary key(api_key, day))")
 
 app = FastAPI(title="InvoiceLens API", version="0.1.0", summary="Template-based invoice extraction for digital PDFs")
+SITE_DIR = Path(__file__).resolve().parent
 
 
 def authorize(api_key: Optional[str]) -> str:
@@ -54,6 +56,16 @@ def check_limit(api_key: str, tier: str) -> Dict[str, object]:
             (api_key, today),
         )
     return {"tier": tier, "used": used + 1, "limit": LIMITS[tier], "day": today}
+
+
+@app.get("/")
+def site_root() -> FileResponse:
+    return FileResponse(SITE_DIR / "site_index.html", media_type="text/html")
+
+
+@app.get("/style.css")
+def site_css() -> FileResponse:
+    return FileResponse(SITE_DIR / "style.css", media_type="text/css")
 
 
 @app.get("/health")

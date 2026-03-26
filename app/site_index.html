@@ -1,0 +1,91 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>InvoiceLens API</title>
+    <meta name="description" content="Extract invoice data from PDFs with a simple API." />
+    <link rel="stylesheet" href="/style.css" />
+  </head>
+  <body>
+    <main class="wrap">
+      <section class="hero">
+        <p class="eyebrow">Template-based invoice extraction</p>
+        <h1>Turn PDF invoices into clean JSON in one API call.</h1>
+        <p class="lead">
+          InvoiceLens wraps a proven open-source invoice parser behind a fast REST API for finance ops,
+          bookkeeping automations, procurement tooling, and internal developer platforms.
+        </p>
+        <div class="cta-row">
+          <a class="btn primary" href="#pricing">See pricing</a>
+          <a class="btn" href="/docs">API docs</a>
+          <a class="btn" href="/openapi.json">OpenAPI</a>
+        </div>
+      </section>
+
+      <section class="grid three">
+        <article class="card">
+          <h2>What it extracts</h2>
+          <p>Issuer, invoice number, invoice date, total amount, VAT, currency, and line items.</p>
+        </article>
+        <article class="card">
+          <h2>Who it’s for</h2>
+          <p>Accounting workflows, AP automation, procurement pipelines, and custom internal tools.</p>
+        </article>
+        <article class="card">
+          <h2>Why it wins</h2>
+          <p>No UI bloat. No enterprise sales call. Just a stable endpoint for digital invoice PDFs.</p>
+        </article>
+      </section>
+
+      <section class="card code-block">
+        <h2>One request</h2>
+        <pre><code>curl -X POST \
+  -H 'Content-Type: application/pdf' \
+  -H 'X-API-Key: free-demo-key' \
+  --data-binary @invoice.pdf \
+  https://invoicelens-api-production.up.railway.app/extract</code></pre>
+      </section>
+
+      <section id="schema" class="card">
+        <h2>Typical response</h2>
+        <pre><code>{
+  "usage": {"tier": "free", "used": 1, "limit": 100, "day": "2026-03-26"},
+  "data": {
+    "issuer": "Amazon Web Services",
+    "amount": 4.11,
+    "date": "2014-08-03T00:00:00",
+    "invoice_number": "42183017",
+    "currency": "USD",
+    "lines": [{"description": "Amazon Glacier", "price_unit": "2.22"}]
+  }
+}</code></pre>
+      </section>
+
+      <section id="pricing" class="grid two">
+        <article class="card pricing">
+          <h2>Free</h2>
+          <p class="price">$0</p>
+          <ul>
+            <li>100 requests/day</li>
+            <li>Digital PDF invoices</li>
+            <li>JSON output</li>
+          </ul>
+        </article>
+        <article class="card pricing featured">
+          <h2>Pro</h2>
+          <p class="price">$49<span>/month</span></p>
+          <ul>
+            <li>10,000 requests/day</li>
+            <li>Priority support</li>
+            <li>Best for finance automations and internal tooling</li>
+          </ul>
+        </article>
+      </section>
+
+      <section class="footer-note">
+        <p>Wrapped from <a href="https://github.com/invoice-x/invoice2data">invoice-x/invoice2data</a>. Built for shipping fast, not for enterprise theater.</p>
+      </section>
+    </main>
+  </body>
+</html>
