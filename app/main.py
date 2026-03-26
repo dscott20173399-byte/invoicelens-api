@@ -10,12 +10,14 @@ from typing import Dict, Optional
 
 from fastapi import FastAPI, Header, HTTPException, Request
 from fastapi.encoders import jsonable_encoder
+import invoice2data
 from invoice2data import extract_data
 from invoice2data.extract.loader import read_templates
 from invoice2data.input import pdfminer_wrapper, pdftotext
 
 APP_DIR = Path(__file__).resolve().parents[1]
-TEMPLATE_DIR = Path(os.getenv("TEMPLATE_DIR", APP_DIR.parent / "invoice2data" / "src" / "invoice2data" / "extract" / "templates"))
+DEFAULT_TEMPLATE_DIR = Path(invoice2data.__file__).resolve().parent / "extract" / "templates"
+TEMPLATE_DIR = Path(os.getenv("TEMPLATE_DIR", str(DEFAULT_TEMPLATE_DIR)))
 DB_PATH = Path(os.getenv("RATE_DB", APP_DIR / "data" / "rate_limits.sqlite3"))
 LIMITS = {"free": int(os.getenv("FREE_LIMIT", "100")), "pro": int(os.getenv("PRO_LIMIT", "10000"))}
 KEYS = {

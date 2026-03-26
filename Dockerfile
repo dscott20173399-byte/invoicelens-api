@@ -7,11 +7,10 @@ ENV PYTHONDONTWRITEBYTECODE=1 \
 WORKDIR /app
 RUN apt-get update && apt-get install -y --no-install-recommends poppler-utils && rm -rf /var/lib/apt/lists/* && useradd -m -u 10001 appuser
 
-COPY invoice2data /app/invoice2data
-COPY product/requirements.txt /app/requirements.txt
+COPY requirements.txt /app/requirements.txt
 RUN pip install --no-cache-dir --upgrade pip && pip install --no-cache-dir -r /app/requirements.txt
 
-COPY product/app /app/app
+COPY app /app/app
 RUN mkdir -p /app/data && chown -R appuser:appuser /app
 
 USER appuser
